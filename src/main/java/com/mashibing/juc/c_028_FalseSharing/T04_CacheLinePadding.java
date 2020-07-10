@@ -1,27 +1,18 @@
 package com.mashibing.juc.c_028_FalseSharing;
 
-public class T01_CacheLinePadding {
-	private static class T {
-		public volatile long x = 0L;
-	}
-
-	public static T[] arr = new T[2];
-
-	static {
-		arr[0] = new T();
-		arr[1] = new T();
-	}
+public class T04_CacheLinePadding {
+	public static volatile long[] arr = new long[16];
 
 	public static void main(String[] args) throws Exception {
 		Thread t1 = new Thread(() -> {
-			for (long i = 0; i < 1000_0000L; i++) {
-				arr[0].x = i;
+			for (long i = 0; i < 10000_0000L; i++) {
+				arr[0] = i;
 			}
 		});
 
 		Thread t2 = new Thread(() -> {
-			for (long i = 0; i < 1000_0000L; i++) {
-				arr[1].x = i;
+			for (long i = 0; i < 10000_0000L; i++) {
+				arr[8] = i;
 			}
 		});
 
