@@ -1,6 +1,7 @@
 /**
- * volatile并不能保证多个线程共同修改running变量时所带来的不一致问题，也就是说volatile不能替代synchronized
- * 运行下面的程序，并分析结果
+ * volatile骞朵笉鑳戒繚璇佸涓嚎绋嬪叡鍚屼慨鏀箁unning鍙橀噺鏃舵墍甯︽潵鐨勪笉涓�鑷撮棶棰橈紝涔熷氨鏄volatile涓嶈兘鏇夸唬synchronized
+ * volatile鍙槸 淇濊瘉绾跨▼鍙鎬э紝浣嗘槸count++ 涓嶆槸鍘熷瓙鎿嶄綔 
+ * 瑙ｅ喅闂鐨勬柟寮忔槸 鍔爏ynchronized
  * @author mashibing
  */
 package com.mashibing.juc.c_012_Volatile;
@@ -10,34 +11,33 @@ import java.util.List;
 
 public class T04_VolatileNotSync {
 	volatile int count = 0;
+
 	void m() {
-		for(int i=0; i<10000; i++) count++;
+		for (int i = 0; i < 10000; i++)
+			count++;
 	}
-	
+
 	public static void main(String[] args) {
 		T04_VolatileNotSync t = new T04_VolatileNotSync();
-		
+
 		List<Thread> threads = new ArrayList<Thread>();
-		
-		for(int i=0; i<10; i++) {
-			threads.add(new Thread(t::m, "thread-"+i));
+
+		for (int i = 0; i < 10; i++) {
+			threads.add(new Thread(t::m, "thread-" + i));
 		}
-		
-		threads.forEach((o)->o.start());
-		
-		threads.forEach((o)->{
+
+		threads.forEach((o) -> o.start());
+
+		threads.forEach((o) -> {
 			try {
 				o.join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		});
-		
+
 		System.out.println(t.count);
-		
-		
+
 	}
-	
+
 }
-
-

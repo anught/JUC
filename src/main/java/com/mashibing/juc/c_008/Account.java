@@ -1,10 +1,7 @@
 /**
- * ÃæÊÔÌâ£ºÄ£ÄâÒøÐÐÕË»§
- * ¶ÔÒµÎñÐ´·½·¨¼ÓËø
- * ¶ÔÒµÎñ¶Á·½·¨²»¼ÓËø
- * ÕâÑùÐÐ²»ÐÐ£¿
- *
- * ÈÝÒ×²úÉúÔà¶ÁÎÊÌâ£¨dirtyRead£©
+ * å¯¹å†™åŠ é”
+ * å¯¹è¯»ä¸åŠ é”
+ * 
  */
 
 package com.mashibing.juc.c_008;
@@ -14,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class Account {
 	String name;
 	double balance;
-	
+
 	public synchronized void set(String name, double balance) {
 		this.name = name;
 
@@ -24,33 +21,31 @@ public class Account {
 			e.printStackTrace();
 		}
 
-		
 		this.balance = balance;
 	}
-	
-	public /*synchronized*/ double getBalance(String name) {
+
+	public /* synchronized */ double getBalance(String name) {
 		return this.balance;
 	}
-	
-	
+
 	public static void main(String[] args) {
 		Account a = new Account();
-		new Thread(()->a.set("zhangsan", 100.0)).start();
-		
+		new Thread(() -> a.set("zhangsan", 100.0)).start();
+
 		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		System.out.println(a.getBalance("zhangsan"));
-		
+
 		try {
 			TimeUnit.SECONDS.sleep(2);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		System.out.println(a.getBalance("zhangsan"));
 	}
 }

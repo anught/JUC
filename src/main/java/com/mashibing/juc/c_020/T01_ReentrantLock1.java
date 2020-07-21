@@ -1,7 +1,7 @@
 /**
- * reentrantlockÓÃÓÚÌæ´úsynchronized
- * ±¾ÀıÖĞÓÉÓÚm1Ëø¶¨this,Ö»ÓĞm1Ö´ĞĞÍê±ÏµÄÊ±ºò,m2²ÅÄÜÖ´ĞĞ
- * ÕâÀïÊÇ¸´Ï°synchronized×îÔ­Ê¼µÄÓïÒå
+* reentrantlockç”¨äºæ›¿ä»£synchronized
+ * æœ¬ä¾‹ä¸­ç”±äºm1é”å®šthis,åªæœ‰m1æ‰§è¡Œå®Œæ¯•çš„æ—¶å€™,m2æ‰èƒ½æ‰§è¡Œ
+ * è¿™é‡Œæ˜¯å¤ä¹ synchronizedæœ€åŸå§‹çš„è¯­ä¹‰
  * @author mashibing
  */
 package com.mashibing.juc.c_020;
@@ -10,22 +10,23 @@ import java.util.concurrent.TimeUnit;
 
 public class T01_ReentrantLock1 {
 	synchronized void m1() {
-		for(int i=0; i<10; i++) {
+		for (int i = 0; i < 10; i++) {
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			System.out.println(i);
-			if(i == 2) m2();
+			if (i == 2)
+				m2();
 		}
-		
+
 	}
-	
+
 	synchronized void m2() {
 		System.out.println("m2 ...");
 	}
-	
+
 	public static void main(String[] args) {
 		T01_ReentrantLock1 rl = new T01_ReentrantLock1();
 		new Thread(rl::m1).start();
@@ -34,6 +35,6 @@ public class T01_ReentrantLock1 {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		//new Thread(rl::m2).start();
+		// new Thread(rl::m2).start();
 	}
 }

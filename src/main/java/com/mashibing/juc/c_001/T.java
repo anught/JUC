@@ -1,22 +1,22 @@
 /**
- * synchronized¹Ø¼ü×Ö
- * ¶ÔÄ³¸ö¶ÔÏó¼ÓËø
+ * synchronizedï¿½Ø¼ï¿½ï¿½ï¿½
+ * ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author mashibing
  */
 
 package com.mashibing.juc.c_001;
 
 public class T {
-	
+
 	private int count = 10;
 	private Object o = new Object();
-	
+
 	public void m() {
-		synchronized(o) { //ÈÎºÎÏß³ÌÒªÖ´ĞĞÏÂÃæµÄ´úÂë£¬±ØĞëÏÈÄÃµ½oµÄËø
+		// ä»»ä½•çº¿ç¨‹æƒ³è¦è®¿é—®ä¸‹é¢è¿™æ®µä»£ç ï¼Œå¿…é¡»å…ˆæ‹¿åˆ°oçš„é” ...æ­¤æ—¶é”å®šçš„æ˜¯oï¼Œè°æ‹¿åˆ°è¿™æŠŠé”ï¼Œè°æœ‰æƒæ‰§è¡Œä»£ç 
+		synchronized (o) {
 			count--;
 			System.out.println(Thread.currentThread().getName() + " count = " + count);
 		}
 	}
-	
-}
 
+}

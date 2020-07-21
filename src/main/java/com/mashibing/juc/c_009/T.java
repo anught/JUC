@@ -1,6 +1,6 @@
 /**
- * Ò»¸öÍ¬²½·½·¨¿ÉÒÔµ÷ÓÃÁíÍâÒ»¸öÍ¬²½·½·¨£¬Ò»¸öÏß³ÌÒÑ¾­ÓµÓÐÄ³¸ö¶ÔÏóµÄËø£¬ÔÙ´ÎÉêÇëµÄÊ±ºòÈÔÈ»»áµÃµ½¸Ã¶ÔÏóµÄËø.
- * Ò²¾ÍÊÇËµsynchronized»ñµÃµÄËøÊÇ¿ÉÖØÈëµÄ
+ * å¯é‡å…¥é” ---------- 
+ * åŒä¸€çº¿ç¨‹ä¸­ å·²ç»èŽ·å–é”äº†ï¼Œè¯¥æ–¹æ³•æŽ¥ç€è°ƒç”¨çš„æ–¹æ³•é‡Œåˆè¦èŽ·å–é”ï¼Œæ—¶å…è®¸çš„ï¼Œï¼Œï¼Œå¦‚æžœä¸å¯é‡å…¥åˆ™ä¼šæ­»é”   è‡ªå·±å†™ä¸€ä¸ªä¸å¯é‡å…¥é” ------
  * @author mashibing
  */
 package com.mashibing.juc.c_009;
@@ -18,7 +18,7 @@ public class T {
 		m2();
 		System.out.println("m1 end");
 	}
-	
+
 	synchronized void m2() {
 		try {
 			TimeUnit.SECONDS.sleep(2);

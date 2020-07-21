@@ -1,5 +1,5 @@
 /**
- * Í¬²½ºÍ·ÇÍ¬²½·½·¨ÊÇ·ñ¿ÉÒÔÍ¬Ê±µ÷ÓÃ£¿
+ *åŒæ­¥æ–¹æ³•å’ŒéžåŒæ­¥æ–¹æ³•æ˜¯å¦å¯ä»¥åŒæ—¶è°ƒç”¨  ï¼Ÿ è‚¯å®šå¯ä»¥å•Š
  * @author mashibing
  */
 
@@ -7,7 +7,7 @@ package com.mashibing.juc.c_007;
 
 public class T {
 
-	public synchronized void m1() { 
+	public synchronized void m1() {
 		System.out.println(Thread.currentThread().getName() + " m1 start...");
 		try {
 			Thread.sleep(10000);
@@ -16,7 +16,7 @@ public class T {
 		}
 		System.out.println(Thread.currentThread().getName() + " m1 end");
 	}
-	
+
 	public void m2() {
 		try {
 			Thread.sleep(5000);
@@ -25,28 +25,25 @@ public class T {
 		}
 		System.out.println(Thread.currentThread().getName() + " m2 ");
 	}
-	
+
 	public static void main(String[] args) {
 		T t = new T();
-		
-		/*new Thread(()->t.m1(), "t1").start();
-		new Thread(()->t.m2(), "t2").start();*/
-		
+
+		/*
+		 * new Thread(()->t.m1(), "t1").start(); new Thread(()->t.m2(), "t2").start();
+		 */
+
 		new Thread(t::m1, "t1").start();
 		new Thread(t::m2, "t2").start();
-		
-		/*
-		//1.8Ö®Ç°µÄÐ´·¨
-		new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				t.m1();
-			}
-			
-		});
-		*/
-		
+		/*
+		 * //1.8Ö®Ç°ï¿½ï¿½Ð´ï¿½ï¿½ new Thread(new Runnable() {
+		 * 
+		 * @Override public void run() { t.m1(); }
+		 * 
+		 * });
+		 */
+
 	}
-	
+
 }

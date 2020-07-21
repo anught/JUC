@@ -4,31 +4,33 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 public class T07_TestCyclicBarrier {
-    public static void main(String[] args) {
-        //CyclicBarrier barrier = new CyclicBarrier(20);
+	// 栅栏 凑个20个线程才开始执行，不满20个的时候，前面的线程一致等着
+	// 限流时 使用 Guava RateLimiter 更合适
+	public static void main(String[] args) {
+		// CyclicBarrier barrier = new CyclicBarrier(20);
 
-        CyclicBarrier barrier = new CyclicBarrier(20, () -> System.out.println("����"));
+		// CyclicBarrier barrier = new CyclicBarrier(20, () ->
+		// System.out.println("满人，发车"));
 
-        /*CyclicBarrier barrier = new CyclicBarrier(20, new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("���ˣ�����");
-            }
-        });*/
+		CyclicBarrier barrier = new CyclicBarrier(20, new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("满人 , 发车");
+			}
+		});
 
-        for(int i=0; i<100; i++) {
+		for (int i = 0; i < 100; i++) { // 会有 5个 满人 , 发车
 
-                new Thread(()->{
-                    try {
-                        barrier.await();
+			new Thread(() -> {
+				try {
+					barrier.await();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (BrokenBarrierException e) {
+					e.printStackTrace();
+				}
+			}).start();
 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (BrokenBarrierException e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-            
-        }
-    }
+		}
+	}
 }

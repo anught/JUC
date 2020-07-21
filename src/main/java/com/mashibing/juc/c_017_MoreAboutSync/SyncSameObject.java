@@ -1,52 +1,48 @@
 /**
- * Ëø¶¨Ä³¶ÔÏóo£¬Èç¹ûoµÄÊôĞÔ·¢Éú¸Ä±ä£¬²»Ó°ÏìËøµÄÊ¹ÓÃ
- * µ«ÊÇÈç¹ûo±ä³ÉÁíÍâÒ»¸ö¶ÔÏó£¬ÔòËø¶¨µÄ¶ÔÏó·¢Éú¸Ä±ä
- * Ó¦¸Ã±ÜÃâ½«Ëø¶¨¶ÔÏóµÄÒıÓÃ±ä³ÉÁíÍâµÄ¶ÔÏó
+ * é”å®šæŸå¯¹è±¡oï¼Œå¦‚æœoçš„å±æ€§å‘ç”Ÿæ”¹å˜ï¼Œä¸å½±å“é”çš„ä½¿ç”¨
+ * ä½†æ˜¯å¦‚æœoå˜æˆå¦å¤–ä¸€ä¸ªå¯¹è±¡ï¼Œåˆ™é”å®šçš„å¯¹è±¡å‘ç”Ÿæ”¹å˜
+ * åº”è¯¥é¿å…å°†é”å®šå¯¹è±¡çš„å¼•ç”¨å˜æˆå¦å¤–çš„å¯¹è±¡
  * @author mashibing
  */
 package com.mashibing.juc.c_017_MoreAboutSync;
 
 import java.util.concurrent.TimeUnit;
 
-
 public class SyncSameObject {
-	
-	/*final*/ Object o = new Object();
+
+	/* final */ Object o = new Object();
 
 	void m() {
-		synchronized(o) {
-			while(true) {
+		synchronized (o) {
+			while (true) {
 				try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 				System.out.println(Thread.currentThread().getName());
-				
-				
+
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		SyncSameObject t = new SyncSameObject();
-		//Æô¶¯µÚÒ»¸öÏß³Ì
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ß³ï¿½
 		new Thread(t::m, "t1").start();
-		
+
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		//´´½¨µÚ¶ş¸öÏß³Ì
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ß³ï¿½
 		Thread t2 = new Thread(t::m, "t2");
-		
-		t.o = new Object(); //Ëø¶ÔÏó·¢Éú¸Ä±ä£¬ËùÒÔt2Ïß³ÌµÃÒÔÖ´ĞĞ£¬Èç¹û×¢ÊÍµôÕâ¾ä»°£¬Ïß³Ì2½«ÓÀÔ¶µÃ²»µ½Ö´ĞĞ»ú»á
-		
-		t2.start();
-		
-	}
 
-	
+		t.o = new Object(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ä£¬ï¿½ï¿½ï¿½ï¿½t2ï¿½ß³Ìµï¿½ï¿½ï¿½Ö´ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½×¢ï¿½Íµï¿½ï¿½ï¿½ä»°ï¿½ï¿½ï¿½ß³ï¿½2ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½Ã²ï¿½ï¿½ï¿½Ö´ï¿½Ğ»ï¿½ï¿½ï¿½
+
+		t2.start();
+
+	}
 
 }

@@ -1,16 +1,16 @@
 /**
- * reentrantlockÓÃÓÚÌæ´úsynchronized
- * ÓÉÓÚm1Ëø¶¨this,Ö»ÓĞm1Ö´ĞĞÍê±ÏµÄÊ±ºò,m2²ÅÄÜÖ´ĞĞ
- * ÕâÀïÊÇ¸´Ï°synchronized×îÔ­Ê¼µÄÓïÒå
+ * reentrantlockç”¨äºæ›¿ä»£synchronized
+ * ç”±äºm1é”å®šthis,åªæœ‰m1æ‰§è¡Œå®Œæ¯•çš„æ—¶å€™,m2æ‰èƒ½æ‰§è¡Œ
+ * è¿™é‡Œæ˜¯å¤ä¹ synchronizedæœ€åŸå§‹çš„è¯­ä¹‰
  * 
- * Ê¹ÓÃreentrantlock¿ÉÒÔÍê³ÉÍ¬ÑùµÄ¹¦ÄÜ
- * ĞèÒª×¢ÒâµÄÊÇ£¬±ØĞëÒª±ØĞëÒª±ØĞëÒªÊÖ¶¯ÊÍ·ÅËø£¨ÖØÒªµÄÊÂÇéËµÈı±é£©
- * Ê¹ÓÃsynËø¶¨µÄ»°Èç¹ûÓöµ½Òì³££¬jvm»á×Ô¶¯ÊÍ·ÅËø£¬µ«ÊÇlock±ØĞëÊÖ¶¯ÊÍ·ÅËø£¬Òò´Ë¾­³£ÔÚfinallyÖĞ½øĞĞËøµÄÊÍ·Å
+ * ä½¿ç”¨reentrantlockå¯ä»¥å®ŒæˆåŒæ ·çš„åŠŸèƒ½
+ * éœ€è¦æ³¨æ„çš„æ˜¯ï¼Œå¿…é¡»è¦å¿…é¡»è¦å¿…é¡»è¦æ‰‹åŠ¨é‡Šæ”¾é”ï¼ˆé‡è¦çš„äº‹æƒ…è¯´ä¸‰éï¼‰
+ * ä½¿ç”¨syné”å®šçš„è¯å¦‚æœé‡åˆ°å¼‚å¸¸ï¼Œjvmä¼šè‡ªåŠ¨é‡Šæ”¾é”ï¼Œä½†æ˜¯lockå¿…é¡»æ‰‹åŠ¨é‡Šæ”¾é”ï¼Œå› æ­¤ç»å¸¸åœ¨finallyä¸­è¿›è¡Œé”çš„é‡Šæ”¾
  * 
- * Ê¹ÓÃreentrantlock¿ÉÒÔ½øĞĞ¡°³¢ÊÔËø¶¨¡±tryLock£¬ÕâÑùÎŞ·¨Ëø¶¨£¬»òÕßÔÚÖ¸¶¨Ê±¼äÄÚÎŞ·¨Ëø¶¨£¬Ïß³Ì¿ÉÒÔ¾ö¶¨ÊÇ·ñ¼ÌĞøµÈ´ı
+ * ä½¿ç”¨reentrantlockå¯ä»¥è¿›è¡Œâ€œå°è¯•é”å®šâ€tryLockï¼Œè¿™æ ·æ— æ³•é”å®šï¼Œæˆ–è€…åœ¨æŒ‡å®šæ—¶é—´å†…æ— æ³•é”å®šï¼Œçº¿ç¨‹å¯ä»¥å†³å®šæ˜¯å¦ç»§ç»­ç­‰å¾…
  * 
- * Ê¹ÓÃReentrantLock»¹¿ÉÒÔµ÷ÓÃlockInterruptibly·½·¨£¬¿ÉÒÔ¶ÔÏß³Ìinterrupt·½·¨×ö³öÏìÓ¦£¬
- * ÔÚÒ»¸öÏß³ÌµÈ´ıËøµÄ¹ı³ÌÖĞ£¬¿ÉÒÔ±»´ò¶Ï
+ * ä½¿ç”¨ReentrantLockè¿˜å¯ä»¥è°ƒç”¨lockInterruptiblyæ–¹æ³•ï¼Œå¯ä»¥å¯¹çº¿ç¨‹interruptæ–¹æ³•åšå‡ºå“åº”ï¼Œ
+ * åœ¨ä¸€ä¸ªçº¿ç¨‹ç­‰å¾…é”çš„è¿‡ç¨‹ä¸­ï¼Œå¯ä»¥è¢«æ‰“æ–­
  * 
  * @author mashibing
  */
@@ -19,15 +19,13 @@ package com.mashibing.juc.c_020;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Function;
 
 public class T04_ReentrantLock4 {
-		
+
 	public static void main(String[] args) {
 		Lock lock = new ReentrantLock();
-		
-		
-		Thread t1 = new Thread(()->{
+
+		Thread t1 = new Thread(() -> {
 			try {
 				lock.lock();
 				System.out.println("t1 start");
@@ -40,11 +38,11 @@ public class T04_ReentrantLock4 {
 			}
 		});
 		t1.start();
-		
-		Thread t2 = new Thread(()->{
+
+		Thread t2 = new Thread(() -> {
 			try {
-				//lock.lock();
-				lock.lockInterruptibly(); //¿ÉÒÔ¶Ôinterrupt()·½·¨×ö³öÏìÓ¦
+				// lock.lock();
+				lock.lockInterruptibly(); // å¯ä»¥å¯¹interrupt()æ–¹æ³•åšå‡ºå“åº”
 				System.out.println("t2 start");
 				TimeUnit.SECONDS.sleep(5);
 				System.out.println("t2 end");
@@ -55,13 +53,13 @@ public class T04_ReentrantLock4 {
 			}
 		});
 		t2.start();
-		
+
 		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		t2.interrupt(); //´ò¶ÏÏß³Ì2µÄµÈ´ı
-		
+		t2.interrupt(); // æ‰“æ–­çº¿ç¨‹2çš„ç­‰å¾…
+
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * ¶Ô±ÈÉÏÒ»¸ö³ÌĞò£¬¿ÉÒÔÓÃsynchronized½â¾ö£¬synchronized¿ÉÒÔ±£Ö¤¿É¼ûĞÔºÍÔ­×ÓĞÔ£¬volatileÖ»ÄÜ±£Ö¤¿É¼ûĞÔ
+ * å¯¹æ¯”ä¸Šä¸€ä¸ªç¨‹åºï¼Œå¯ä»¥ç”¨synchronizedè§£å†³ï¼Œsynchronizedå¯ä»¥ä¿è¯å¯è§æ€§å’ŒåŸå­æ€§ï¼Œvolatileåªèƒ½ä¿è¯å¯è§æ€§
  * @author mashibing
  */
 package com.mashibing.juc.c_012_Volatile;
@@ -7,11 +7,10 @@ package com.mashibing.juc.c_012_Volatile;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class T05_VolatileVsSync {
-	/*volatile*/ int count = 0;
+	/* volatile */ int count = 0;
 
-	synchronized void m() { 
+	synchronized void m() {
 		for (int i = 0; i < 10000; i++)
 			count++;
 	}

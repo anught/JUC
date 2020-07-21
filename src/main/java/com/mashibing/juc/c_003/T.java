@@ -1,6 +1,6 @@
 /**
- * synchronized¹Ø¼ü×Ö
- * ¶ÔÄ³¸ö¶ÔÏó¼ÓËø
+ * synchronizedï¿½Ø¼ï¿½ï¿½ï¿½
+ * ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author mashibing
  */
 
@@ -9,11 +9,10 @@ package com.mashibing.juc.c_003;
 public class T {
 
 	private int count = 10;
-	
-	public synchronized void m() { //µÈÍ¬ÓÚÔÚ·½·¨µÄ´úÂëÖ´ĞĞÊ±Òªsynchronized(this)
+
+	public synchronized void m() { // æ–¹æ³•åŠ é”
 		count--;
 		System.out.println(Thread.currentThread().getName() + " count = " + count);
 	}
-
 
 }

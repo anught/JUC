@@ -5,115 +5,106 @@ import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 
 public class T09_TestPhaser2 {
-    static Random r = new Random();
-    static MarriagePhaser phaser = new MarriagePhaser();
+	static Random r = new Random();
+	static MarriagePhaser phaser = new MarriagePhaser();
 
+	static void milliSleep(int milli) {
+		try {
+			TimeUnit.MILLISECONDS.sleep(milli);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-    static void milliSleep(int milli) {
-        try {
-            TimeUnit.MILLISECONDS.sleep(milli);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+	public static void main(String[] args) {
 
-    public static void main(String[] args) {
+		phaser.bulkRegister(7);
 
-        phaser.bulkRegister(7);
+		for (int i = 0; i < 5; i++) {
 
-        for(int i=0; i<5; i++) {
+			new Thread(new Person("p" + i)).start();
+		}
 
-            new Thread(new Person("p" + i)).start();
-        }
+		new Thread(new Person("æ–°éƒŽ")).start();
+		new Thread(new Person("æ–°å¨˜")).start();
 
-        new Thread(new Person("ÐÂÀÉ")).start();
-        new Thread(new Person("ÐÂÄï")).start();
+	}
 
-    }
+	static class MarriagePhaser extends Phaser {
+		@Override
+		protected boolean onAdvance(int phase, int registeredParties) {
 
+			switch (phase) {
+			case 0:
+				System.out.println("æ‰€æœ‰äººåˆ°é½äº†ï¼" + registeredParties);
+				System.out.println();
+				return false;
+			case 1:
+				System.out.println("æ‰€æœ‰äººåƒå®Œäº†ï¼" + registeredParties);
+				System.out.println();
+				return false;
+			case 2:
 
+				System.out.println("æ‰€æœ‰äººç¦»å¼€äº†ï¼" + registeredParties);
+				System.out.println();
+				return false;
+			case 3:
+				System.out.println("å©šç¤¼ç»“æŸï¼æ–°éƒŽæ–°å¨˜æŠ±æŠ±ï¼" + registeredParties);
+				return true;
+			default:
+				return true;
+			}
+		}
+	}
 
-    static class MarriagePhaser extends Phaser {
-        @Override
-        protected boolean onAdvance(int phase, int registeredParties) {
+	static class Person implements Runnable {
+		String name;
 
-            switch (phase) {
-                case 0:
-                    System.out.println("ËùÓÐÈËµ½ÆëÁË£¡" + registeredParties);
-                    System.out.println();
-                    return false;
-                case 1:
-                    System.out.println("ËùÓÐÈË³ÔÍêÁË£¡" + registeredParties);
-                    System.out.println();
-                    return false;
-                case 2:
-                    System.out.println("ËùÓÐÈËÀë¿ªÁË£¡" + registeredParties);
-                    System.out.println();
-                    return false;
-                case 3:
-                    System.out.println("»éÀñ½áÊø£¡ÐÂÀÉÐÂÄï±§±§£¡" + registeredParties);
-                    return true;
-                default:
-                    return true;
-            }
-        }
-    }
+		public Person(String name) {
+			this.name = name;
+		}
 
+		public void arrive() {
 
-    static class Person implements Runnable {
-        String name;
+			milliSleep(r.nextInt(1000));
+			System.out.printf("%s åˆ°è¾¾çŽ°åœºï¼\n", name);
+			phaser.arriveAndAwaitAdvance();
+		}
 
-        public Person(String name) {
-            this.name = name;
-        }
+		public void eat() {
+			milliSleep(r.nextInt(1000));
+			System.out.printf("%s åƒå®Œ!\n", name);
+			phaser.arriveAndAwaitAdvance();
+		}
 
-        public void arrive() {
+		public void leave() {
+			milliSleep(r.nextInt(1000));
+			System.out.printf("%s ç¦»å¼€ï¼\n", name);
 
-            milliSleep(r.nextInt(1000));
-            System.out.printf("%s µ½´ïÏÖ³¡£¡\n", name);
-            phaser.arriveAndAwaitAdvance();
-        }
+			phaser.arriveAndAwaitAdvance();
+		}
 
-        public void eat() {
-            milliSleep(r.nextInt(1000));
-            System.out.printf("%s ³ÔÍê!\n", name);
-            phaser.arriveAndAwaitAdvance();
-        }
+		private void hug() {
+			if (name.equals("æ–°éƒŽ") || name.equals("æ–°å¨˜")) {
+				milliSleep(r.nextInt(1000));
+				System.out.printf("%s æ´žæˆ¿ï¼\n", name);
+				phaser.arriveAndAwaitAdvance();
+			} else {
+				phaser.arriveAndDeregister(); // å…¶ä»–äºº è§£é™¤æ³¨å†Œ
+				// phaser.register()
+			}
+		}
 
-        public void leave() {
-            milliSleep(r.nextInt(1000));
-            System.out.printf("%s Àë¿ª£¡\n", name);
+		@Override
+		public void run() {
+			arrive();
 
+			eat();
 
-            phaser.arriveAndAwaitAdvance();
-        }
+			leave();
 
-        private void hug() {
-            if(name.equals("ÐÂÀÉ") || name.equals("ÐÂÄï")) {
-                milliSleep(r.nextInt(1000));
-                System.out.printf("%s ¶´·¿£¡\n", name);
-                phaser.arriveAndAwaitAdvance();
-            } else {
-                phaser.arriveAndDeregister();
-                //phaser.register()
-            }
-        }
+			hug();
 
-        @Override
-        public void run() {
-            arrive();
-
-
-            eat();
-
-
-            leave();
-
-
-            hug();
-
-        }
-    }
+		}
+	}
 }
-
-

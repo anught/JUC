@@ -5,85 +5,84 @@ import java.util.concurrent.Phaser;
 import java.util.concurrent.TimeUnit;
 
 public class T08_TestPhaser {
-    static Random r = new Random();
-    static MarriagePhaser phaser = new MarriagePhaser();
+	static Random r = new Random();
+	static MarriagePhaser phaser = new MarriagePhaser();
 
-    static void milliSleep(int milli) {
-        try {
-            TimeUnit.MILLISECONDS.sleep(milli);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+	// æŒ‰ä¸åŒé˜¶æ®µæ‰§è¡Œçº¿ç¨‹ï¼Œï¼Œé—ä¼ ç®—æ³• å¯ä»¥ç”¨å¾—ä¸Š
+	//
 
-    public static void main(String[] args) {
+	static void milliSleep(int milli) {
+		try {
+			TimeUnit.MILLISECONDS.sleep(milli);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-        phaser.bulkRegister(5);
+	public static void main(String[] args) {
 
-        for(int i=0; i<5; i++) {
-            final int nameIndex = i;
-            new Thread(()->{
+		phaser.bulkRegister(5);
 
-                Person p = new Person("person " + nameIndex);
-                p.arrive();
-                phaser.arriveAndAwaitAdvance();
+		for (int i = 0; i < 5; i++) {
+			final int nameIndex = i;
+			new Thread(() -> {
 
-                p.eat();
-                phaser.arriveAndAwaitAdvance();
+				Person p = new Person("person " + nameIndex);
+				p.arrive();
+				phaser.arriveAndAwaitAdvance();
 
-                p.leave();
-                phaser.arriveAndAwaitAdvance();
-            }).start();
-        }
+				p.eat();
+				phaser.arriveAndAwaitAdvance();
 
-    }
+				p.leave();
+				phaser.arriveAndAwaitAdvance();
+			}).start();
+		}
 
+	}
 
-    static class MarriagePhaser extends Phaser {
-        @Override
-        protected boolean onAdvance(int phase, int registeredParties) {
+	static class MarriagePhaser extends Phaser {
+		@Override
+		protected boolean onAdvance(int phase, int registeredParties) {
 
-            switch (phase) {
-                case 0:
-                    System.out.println("ËùÓĞÈËµ½ÆëÁË£¡");
-                    return false;
-                case 1:
-                    System.out.println("ËùÓĞÈË³ÔÍêÁË£¡");
-                    return false;
-                case 2:
-                    System.out.println("ËùÓĞÈËÀë¿ªÁË£¡");
-                    System.out.println("»éÀñ½áÊø£¡");
-                    return true;
-                default:
-                    return true;
-            }
-        }
-    }
+			switch (phase) {
+			case 0:
+				System.out.println("æ‰€æœ‰äººåˆ°é½äº†ï¼");
+				return false;
+			case 1:
+				System.out.println("æ‰€æœ‰äººåƒå®Œäº†ï¼");
+				return false;
+			case 2:
+				System.out.println("æ‰€æœ‰äººç¦»å¼€äº†ï¼");
+				System.out.println("å©šç¤¼ç»“æŸï¼");
+				return true;
+			default:
+				return true;
+			}
+		}
+	}
 
+	static class Person {
+		String name;
 
-    static class Person {
-        String name;
+		public Person(String name) {
+			this.name = name;
+		}
 
-        public Person(String name) {
-            this.name = name;
-        }
+		public void arrive() {
+			milliSleep(r.nextInt(1000));
+			System.out.printf("%s ï¿½ï¿½ï¿½ï¿½ï¿½Ö³ï¿½ï¿½ï¿½\n", name);
+		}
 
-        public void arrive() {
-            milliSleep(r.nextInt(1000));
-            System.out.printf("%s µ½´ïÏÖ³¡£¡\n", name);
-        }
+		public void eat() {
+			milliSleep(r.nextInt(1000));
+			System.out.printf("%s ï¿½ï¿½ï¿½ï¿½!\n", name);
+		}
 
-        public void eat() {
-            milliSleep(r.nextInt(1000));
-            System.out.printf("%s ³ÔÍê!\n", name);
-        }
+		public void leave() {
+			milliSleep(r.nextInt(1000));
+			System.out.printf("%s ï¿½ë¿ªï¿½ï¿½\n", name);
+		}
 
-        public void leave() {
-            milliSleep(r.nextInt(1000));
-            System.out.printf("%s Àë¿ª£¡\n", name);
-        }
-
-    }
+	}
 }
-
-
