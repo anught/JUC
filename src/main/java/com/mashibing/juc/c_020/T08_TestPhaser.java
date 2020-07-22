@@ -71,17 +71,17 @@ public class T08_TestPhaser {
 
 		public void arrive() {
 			milliSleep(r.nextInt(1000));
-			System.out.printf("%s �����ֳ���\n", name);
+			System.out.printf("%s 到达\n", name);
 		}
 
 		public void eat() {
 			milliSleep(r.nextInt(1000));
-			System.out.printf("%s ����!\n", name);
+			System.out.printf("%s 吃完!\n", name);
 		}
 
 		public void leave() {
 			milliSleep(r.nextInt(1000));
-			System.out.printf("%s �뿪��\n", name);
+			System.out.printf("%s 离开\n", name);
 		}
 
 	}

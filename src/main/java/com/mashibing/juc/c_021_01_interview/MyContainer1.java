@@ -1,8 +1,8 @@
 /**
- * 面试题：写一个固定容量同步容器，拥有put和get方法，以及getCount方法，
- * 能够支持2个生产者线程以及10个消费者线程的阻塞调用
+ * 锟斤拷锟斤拷锟解：写一锟斤拷锟教讹拷锟斤拷锟斤拷同锟斤拷锟斤拷锟斤拷锟斤拷拥锟斤拷put锟斤拷get锟斤拷锟斤拷锟斤拷锟皆硷拷getCount锟斤拷锟斤拷锟斤拷
+ * 锟杰癸拷支锟斤拷2锟斤拷锟斤拷锟斤拷锟斤拷锟竭筹拷锟皆硷拷10锟斤拷锟斤拷锟斤拷锟斤拷锟竭程碉拷锟斤拷锟斤拷锟斤拷锟斤拷
  * 
- * 使用wait和notify/notifyAll来实现
+ * 使锟斤拷wait锟斤拷notify/notifyAll锟斤拷实锟斤拷
  * 
  * @author mashibing
  */
@@ -13,27 +13,26 @@ import java.util.concurrent.TimeUnit;
 
 public class MyContainer1<T> {
 	final private LinkedList<T> lists = new LinkedList<>();
-	final private int MAX = 10; //最多10个元素
+	final private int MAX = 10; //
 	private int count = 0;
-	
-	
+
 	public synchronized void put(T t) {
-		while(lists.size() == MAX) { //想想为什么用while而不是用if？
+		while (lists.size() == MAX) { // 锟斤拷锟斤拷为什么锟斤拷while锟斤拷锟斤拷锟斤拷锟斤拷if锟斤拷
 			try {
-				this.wait(); //effective java
+				this.wait(); // effective java
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		lists.add(t);
-		++count;
-		this.notifyAll(); //通知消费者线程进行消费
+		++count;// synchronized 鍘熷洜
+		this.notifyAll(); // 通知锟斤拷锟斤拷锟斤拷锟竭程斤拷锟斤拷锟斤拷锟斤拷
 	}
-	
+
 	public synchronized T get() {
 		T t = null;
-		while(lists.size() == 0) {
+		while (lists.size() == 0) {
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
@@ -41,30 +40,32 @@ public class MyContainer1<T> {
 			}
 		}
 		t = lists.removeFirst();
-		count --;
-		this.notifyAll(); //通知生产者进行生产
+		count--;
+		this.notifyAll(); // 通知锟斤拷锟斤拷锟竭斤拷锟斤拷锟斤拷锟斤拷
 		return t;
 	}
-	
+
 	public static void main(String[] args) {
 		MyContainer1<String> c = new MyContainer1<>();
-		//启动消费者线程
-		for(int i=0; i<10; i++) {
-			new Thread(()->{
-				for(int j=0; j<5; j++) System.out.println(c.get());
+		// 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟竭筹拷
+		for (int i = 0; i < 10; i++) {
+			new Thread(() -> {
+				for (int j = 0; j < 5; j++)
+					System.out.println(c.get());
 			}, "c" + i).start();
 		}
-		
+
 		try {
 			TimeUnit.SECONDS.sleep(2);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		//启动生产者线程
-		for(int i=0; i<2; i++) {
-			new Thread(()->{
-				for(int j=0; j<25; j++) c.put(Thread.currentThread().getName() + " " + j);
+
+		// 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟竭筹拷
+		for (int i = 0; i < 2; i++) {
+			new Thread(() -> {
+				for (int j = 0; j < 25; j++)
+					c.put(Thread.currentThread().getName() + " " + j);
 			}, "p" + i).start();
 		}
 	}

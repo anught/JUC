@@ -50,6 +50,7 @@ public class T09_TestPhaser2 {
 				return false;
 			case 3:
 				System.out.println("婚礼结束！新郎新娘抱抱！" + registeredParties);
+				System.out.println();
 				return true;
 			default:
 				return true;
@@ -98,13 +99,9 @@ public class T09_TestPhaser2 {
 		@Override
 		public void run() {
 			arrive();
-
 			eat();
-
 			leave();
-
 			hug();
-
 		}
 	}
 }

@@ -1,13 +1,13 @@
 /**
- * reentrantlockÓÃÓÚÌæ´úsynchronized
- * ÓÉÓÚm1Ëø¶¨this,Ö»ÓÐm1Ö´ÐÐÍê±ÏµÄÊ±ºò,m2²ÅÄÜÖ´ÐÐ
- * ÕâÀïÊÇ¸´Ï°synchronized×îÔ­Ê¼µÄÓïÒå
+ * reentrantlockï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½synchronized
+ * ï¿½ï¿½ï¿½ï¿½m1ï¿½ï¿½ï¿½ï¿½this,Ö»ï¿½ï¿½m1Ö´ï¿½ï¿½ï¿½ï¿½Ïµï¿½Ê±ï¿½ï¿½,m2ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½Ï°synchronizedï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * 
- * Ê¹ÓÃreentrantlock¿ÉÒÔÍê³ÉÍ¬ÑùµÄ¹¦ÄÜ
- * ÐèÒª×¢ÒâµÄÊÇ£¬±ØÐëÒª±ØÐëÒª±ØÐëÒªÊÖ¶¯ÊÍ·ÅËø£¨ÖØÒªµÄÊÂÇéËµÈý±é£©
- * Ê¹ÓÃsynËø¶¨µÄ»°Èç¹ûÓöµ½Òì³££¬jvm»á×Ô¶¯ÊÍ·ÅËø£¬µ«ÊÇlock±ØÐëÊÖ¶¯ÊÍ·ÅËø£¬Òò´Ë¾­³£ÔÚfinallyÖÐ½øÐÐËøµÄÊÍ·Å
+ * Ê¹ï¿½ï¿½reentrantlockï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½
+ * ï¿½ï¿½Òª×¢ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Òªï¿½Ö¶ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½é£©
+ * Ê¹ï¿½ï¿½synï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½jvmï¿½ï¿½ï¿½Ô¶ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lockï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½ï¿½finallyï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½
  * 
- * Ê¹ÓÃreentrantlock¿ÉÒÔ½øÐÐ¡°³¢ÊÔËø¶¨¡±tryLock£¬ÕâÑùÎÞ·¨Ëø¶¨£¬»òÕßÔÚÖ¸¶¨Ê±¼äÄÚÎÞ·¨Ëø¶¨£¬Ïß³Ì¿ÉÒÔ¾ö¶¨ÊÇ·ñ¼ÌÐøµÈ´ý
+ * Ê¹ï¿½ï¿½reentrantlockï¿½ï¿½ï¿½Ô½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tryLockï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì¿ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½
  * @author mashibing
  */
 package com.mashibing.juc.c_020;
@@ -22,7 +22,7 @@ public class T03_ReentrantLock3 {
 	void m1() {
 		try {
 			lock.lock();
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 30; i++) {
 				TimeUnit.SECONDS.sleep(1);
 
 				System.out.println(i);
@@ -35,28 +35,28 @@ public class T03_ReentrantLock3 {
 	}
 
 	/**
-	 * Ê¹ÓÃtryLock½øÐÐ³¢ÊÔËø¶¨£¬²»¹ÜËø¶¨Óë·ñ£¬·½·¨¶¼½«¼ÌÐøÖ´ÐÐ
-	 * ¿ÉÒÔ¸ù¾ÝtryLockµÄ·µ»ØÖµÀ´ÅÐ¶¨ÊÇ·ñËø¶¨
-	 * Ò²¿ÉÒÔÖ¸¶¨tryLockµÄÊ±¼ä£¬ÓÉÓÚtryLock(time)Å×³öÒì³££¬ËùÒÔÒª×¢ÒâunclockµÄ´¦Àí£¬±ØÐë·Åµ½finallyÖÐ
+	 * Ê¹ï¿½ï¿½tryLockï¿½ï¿½ï¿½Ð³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ñ£¬·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½
+	 * ï¿½ï¿½ï¿½Ô¸ï¿½ï¿½ï¿½tryLockï¿½Ä·ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * Ò²ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½tryLockï¿½ï¿½Ê±ï¿½ä£¬ï¿½ï¿½ï¿½ï¿½tryLock(time)ï¿½×³ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òª×¢ï¿½ï¿½unclockï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½finallyï¿½ï¿½
 	 */
 	void m2() {
 		/*
-		boolean locked = lock.tryLock();
-		System.out.println("m2 ..." + locked);
-		if(locked) lock.unlock();
-		*/
-		
+		 * boolean locked = lock.tryLock(); System.out.println("m2 ..." + locked);
+		 * if(locked) lock.unlock();
+		 */
+
 		boolean locked = false;
-		
+
 		try {
 			locked = lock.tryLock(5, TimeUnit.SECONDS);
 			System.out.println("m2 ..." + locked);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally {
-			if(locked) lock.unlock();
+			if (locked)
+				lock.unlock();
 		}
-		
+
 	}
 
 	public static void main(String[] args) {
